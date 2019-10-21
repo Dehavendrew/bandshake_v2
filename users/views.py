@@ -147,6 +147,7 @@ def show_flyer(request):
 @login_required
 def register_company(request):
     c_form = CompanyCreateForm()
+    print("test")
 
     context = {
         'c_form': c_form,
