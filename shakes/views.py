@@ -12,6 +12,7 @@ from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from datetime import time
+from .mixins import *
 # Create your views here.
 
 def home(request):
@@ -65,9 +66,9 @@ class ShakeDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         meetup = self.get_object()
-        print(meetup.people.first)
         return True
 
+@login_required
 def network(request):
     user = request.user
     shake_list = []
@@ -84,17 +85,20 @@ def network(request):
 
     return render(request, 'shakes/network.html',context)
 
+@login_required
 def connect(request):
     if request.method == "POST":
         b_form = connectBandForm(request.POST, request.FILES)
         if b_form.is_valid():
             bands = band.objects.filter(pk=int(b_form.cleaned_data.get('bandID')),
-                                        Passcode=b_form.cleaned_data.get('password')).count()
-            if bands == 0:
+                                        Passcode=b_form.cleaned_data.get('password'))
+            if bands.count() == 0:
                 messages.error(request, f'Failed Authentication, Check Band Credentials')
                 return redirect('home-connect')
             else:
-                messages.success(request, f'Band Authenticated, Attempting to Connect.')
+                updateBand = bands.first()
+                updateBand.LastUser = request.user
+                updateBand.save()
                 return redirect('events-join', b_form.cleaned_data.get('bandID'))
 
     context = {
@@ -102,7 +106,7 @@ def connect(request):
     }
     return render(request, 'shakes/connect.html', context)
 
-class EventsView(ListView):
+class EventsView(LoginRequiredMixin, ListView):
     model = attendance
     template_name = 'shakes/events.html'
     context_object_name = 'events'
@@ -131,6 +135,10 @@ def messenger(request):
 
 @login_required
 def EventJoinView(request, bandID):
+    if not bandAuth(request.user, bandID):
+        messages.success(request, "This band has not been authenticated yet")
+        return redirect('home-connect')
+
     if request.method == "POST":
         e_form = joinEventForm(request.POST, request.FILES)
         f_form = FlyerUpdateForm(request.POST, request.FILES)
@@ -184,7 +192,7 @@ def CreateShakeView(request):
 
     return HttpResponse('')
 
-class ShakeListViewLive(LoginRequiredMixin, ListView):
+class ShakeListViewLive(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = meetup
     template_name = 'shakes/live-home.html'
     context_object_name = 'shakes'
@@ -197,3 +205,18 @@ class ShakeListViewLive(LoginRequiredMixin, ListView):
         context['event'] = self.kwargs['eventObj']
         context['band'] = self.kwargs['bandID']
         return context
+
+    def test_func(self):
+        user = self.request.user
+        eventname = self.kwargs['eventObj']
+        bandID = int(self.kwargs['bandID'])
+        bandObj = band.objects.filter(pk=bandID).first()
+        eventObj = event.objects.filter(name=eventname).first()
+        attendaceObj = attendance.objects.filter(person=user,band=bandObj, event=eventObj)
+        if attendaceObj.count() == 0:
+            return False
+        return True
+
+    def handle_no_permission(self):
+        messages.success(self.request, "This band has not been authenticated yet")
+        return redirect('home-connect')
