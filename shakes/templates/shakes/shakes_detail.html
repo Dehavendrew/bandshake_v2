@@ -1,0 +1,22 @@
+{% extends "shakes/base.html" %}
+{% block content %}
+    <article class="media content-section" id="{{ shake.id }}">
+        <img class="rounded-circle article-img" src="{{ shake.people.first.profile.image.url }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              First Impression &#x1F91D
+            </div>
+            <h2>
+                <a class="mr-2" href={% url 'other-user' shake.people.first.username %}>{{ shake.people.first }}</a>shook hands with
+                <a class="mr-2" href={% url 'other-user' shake.people.last.username %}>{{ shake.people.last }}</a>
+            </h2>
+            <p class="article-content"> At the <a class="article-title" href={% url 'event-list' shake.eventObj.name %}>{{ shake.eventObj }}</a>
+                <small class="text-muted">{{ shake.date}}</small>
+            </p>
+          </div>
+        <img class="rounded-circle article-img" src="{{ shake.people.last.profile.image.url }}">
+    </article>
+     {% if shake.people.first == user %}
+         <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
+     {% endif %}
+{% endblock content %}

@@ -1,0 +1,16 @@
+{% extends "shakes/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <h1>Connect to your BandShake</h1>
+          <div class="content-section" id="devices">
+              <form method="POST">
+                  {% csrf_token %}
+                    <fieldset class="form-group">
+                         {{ b_form|crispy }}
+                    </fieldset>
+                    <div class="form-group">
+                        <button class="btn btn-outline-info" type="submit">Connect</button>
+                    </div>
+              </form>
+          </div>
+{% endblock content %}

@@ -1,0 +1,12 @@
+{% load crispy_forms_tags %}
+<form method="POST" enctype="multipart/form-data" id="peronsal">
+    {% csrf_token %}
+    <fieldset class="form-group">
+        <small class="mt-4">This info is private to you</small>
+         {{ u_form|crispy }}
+         {{ p_form|crispy }}
+    </fieldset>
+    <div class="form-group">
+               <button class="btn btn-outline-info" type="submit">Save Changes</button>
+    </div>
+</form>

@@ -1,0 +1,35 @@
+{% extends "shakes/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+      <article class="media content-section">
+              <div class="media-body">
+                <div class="article-metadata">
+                  Manage Events
+                </div>
+                <h2>
+                    <div class="d-flex justify-content-center">
+                        <button type="button" class="btn btn-success m-2" onclick="joinEventPage()">Join an Event!</button>
+                        <button type="button" class="btn btn-success m-2" onclick="createEventPage()">Create a new Event!</button>
+                    </div>
+                </h2>
+              </div>
+        </article>
+        <small class="text-muted mb-6">
+            These are all of the events that you have attended:
+        </small>
+        {% for event in events %}
+            <article class="media content-section">
+              <div class="media-body">
+                <div class="article-metadata">
+                  {{ event.event.type }} &#x1F331
+                </div>
+                <h2>
+                    {{ event.event.name }}
+                </h2>
+                <p class="article-content"> At {{ event.event.location }}
+                    <small class="text-muted">{{ event.event.startTime}}</small>
+                </p>
+              </div>
+        </article>
+        {% endfor %}
+{% endblock content %}

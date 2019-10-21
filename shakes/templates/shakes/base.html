@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% if title %}
+        <title>BandShake - {{ title }}</title>
+    {% else %}
+        <title>BandShake </title>
+    {% endif %}
+    <link rel="icon" href="/media/headerLogo.png" type="image/icon type">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <script src="/static/shakes/scripts/home.js"></script>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel = "stylesheet"
+         type = "text/css"
+         href = "/static/shakes/homepage.css" />
+</head>
+<body>
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+            <img src="/media/mainLogo.PNG" style="height: 40px" class="img-fluid. max-width: 100% mr-2">
+          <a class="navbar-brand mr-2" href="/">BandShake</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+              <a class="nav-item nav-link ml-4" href={% url 'home-connect' %}>Join Event</a>
+              <a class="nav-item nav-link" href={% url 'post-create' %}>Shake</a>
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+                {% if user.is_authenticated %}
+                    <a class="nav-item nav-link" href={% url 'profile' %}>{{ user }}</a>
+                    <a class="nav-item nav-link" href={% url 'logout' %}>Logout</a>
+                {% else  %}
+                    <a class="nav-item nav-link" href={% url 'login' %}>Login</a>
+                    <a class="nav-item nav-link" href={% url 'register' %}>Register</a>
+                {% endif %}
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-8", id="feed">
+          {% if messages %}
+              {% for message in messages %}
+                  <div class="alert alert-{{ message.tags }}">
+                  {{ message }}
+                  </div>
+              {% endfor %}
+          {% endif %}
+            {% block content %}{% endblock %}
+        </div>
+        <div class="col-md-4">
+            {% block content2 %}{% endblock %}
+          <div class="content-section">
+              {% if user.is_authenticated %}
+                <h3>{{ user }}</h3>
+                <p class='text-muted'>Your Account
+                  <ul class="list-group">
+                      <li class="list-group-item list-group-item-light"><a href={% url 'profile' %}>Profile</a></li>
+                    <li class="list-group-item list-group-item-light"><a href={% url 'network' %}>Network</a></li>
+                    <li class="list-group-item list-group-item-light"><a href={% url 'events' %}>Events</a></li>
+                    <li class="list-group-item list-group-item-light"><a href={% url 'messenger' %}>Messenger</a></li>
+                  </ul>
+              {% else %}
+                <h3>Create an Account to Start Networking Today!</h3>
+                  <a class="nav-item nav-link" href={% url 'login' %}>Login</a>
+                  <a class="nav-item nav-link" href={% url 'register' %}>Register</a>
+              {% endif %}
+            </p>
+          </div>
+        </div>
+      </div> </main>  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+
+</html>

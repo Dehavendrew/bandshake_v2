@@ -1,0 +1,80 @@
+{% extends "shakes/base.html" %}
+{% block content %}
+    <div class="content-section">
+      <div class="media">
+        <img class="rounded-circle account-img" src="{{ other_user.image.url }}">
+        <div class="media-body">
+          <h2 class="account-heading">{{ other_user.user.username }}</h2>
+          <p class="text-secondary">{{ other_user.user.profile.job }} at {{ other_user.user.profile.company.name }}</p>
+        </div>
+          <img class="rounded-circle account-img" src="{{ other_user.user.profile.company.image.url }}">
+      </div>
+    </div>
+
+    {% for doc in docs %}
+        <div class="article-metadata">
+            <h3 class="font-weight-bold">{{ doc.event }}</h3>
+        </div>
+        <div class="media content-section">
+            <div class="embed-responsive embed-responsive-21by9">
+                 <iframe class=embed-responsive-item" src="{{ doc.fileShared }}" allowfullscreen></iframe>
+            </div>
+        </div>
+    {% endfor %}
+
+{#    <div class="article-metadata">#}
+{#        <h3 class="font-weight-bold">Resume</h3>#}
+{#    </div>#}
+{#     <div class="media content-section">#}
+{#            <div class="media-body">#}
+{#                <h4 class="text-center">Drew DeHaven</h4>#}
+{#                <h6 class="text-center">Dehavendrew@tamu.edu</h6>#}
+{#                <h6 class="text-center">817-681-7218</h6>#}
+{#                <h6 class="text-center">19106 West Josey Overlook Dr</h6>#}
+{#                <div class="mb-4">#}
+{#                    <h5 class="bold">Education</h5>#}
+{#                        <p class="font-italic">Texas A&M University, 2018-2022</p>#}
+{#                        <ul>#}
+{#                            <li>Electrical Engineering Honors with a Computer Science Minor</li>#}
+{#                            <li>GPA: 4.00</li>#}
+{#                        </ul>#}
+{#                </div>#}
+{#                <div class="mb-4">#}
+{#                    <h5 class="bold">Experience</h5>#}
+{#                     <p class="font-italic">Arbin Instruments, March 2019-August 2019</p>#}
+{#                     <p>Software Engineering Intern</p>#}
+{#                        <ul>#}
+{#                            <li>Designed, debugged, and enhanced software projects for client and#}
+{#                                company use, tested and calibrated Arbin battery testing units</li>#}
+{#                            <li>Gained experience in SQL Database management, .NET framework, and C# programming.</li>#}
+{#                        </ul>#}
+{#                    <p class="font-italic">Texas A&M University, September 2018-March 2019</p>#}
+{#                     <p>Software Development Intern</p>#}
+{#                        <ul>#}
+{#                            <li>Front-end web development of an online calculus textbook</li>#}
+{#                            <li>Gained experience in working with HTML, CSS, JavaScript, NodeJS, and LaTex</li>#}
+{#                        </ul>#}
+{#                </div>#}
+{#                 <div class="mb-4">#}
+{#                    <h5 class="bold">Extracurriculars</h5>#}
+{#                     <p class="font-italic">IEEE, January 2019- Present</p>#}
+{#                        <ul>#}
+{#                            <li>Active in TAMU IEEE chapter, attended meetings, workshops and competitions.</li>#}
+{#                        </ul>#}
+{#                    <p class="font-italic">Aggies Invent, October 2018</p>#}
+{#                        <ul>#}
+{#                            <li>1st Place team for October Challenge</li>#}
+{#                            <li>Our team designed a solution to display data from a network using virtual reality,#}
+{#                                we had to design a prototype and pitch our idea to investors within a 48 hour time period. </li>#}
+{#                        </ul>#}
+{#                </div>#}
+{#                 <div class="mb-2">#}
+{#                    <h5 class="bold">Skills</h5>#}
+{#                        <ul>#}
+{#                            <li>Computer Skills: Python, C++, C#, JavaScript, SQL, HTML, CSS</li>#}
+{#                            <li>Leadership Skills: communication, presentation, and team organization</li>#}
+{#                        </ul>#}
+{#                </div>#}
+{#            </div>#}
+{#     </div>#}
+{% endblock content %}

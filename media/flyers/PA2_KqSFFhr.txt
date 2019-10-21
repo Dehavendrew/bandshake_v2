@@ -1,0 +1,66 @@
+#include <iostream>
+#include <fstream>
+#include "My_matrix.h"
+#include <string>
+
+using namespace std;
+
+int main(){
+// Test 1 Type Double
+    My_matrix<double> mDouble(3,4);
+    mDouble(1,2) = 2.2;
+    cout << "Test 1, Type Double:" <<endl << mDouble <<endl;
+    My_matrix<double> mDouble2(mDouble);
+    cout << "Copy of First" << endl << mDouble2 << endl;
+    cin >> mDouble2;
+    cout << "Input" << endl <<  mDouble2 << endl;
+    cout << "Multiplication" << endl << mDouble2 * mDouble2 << endl;
+    cout << "Addition" << endl << mDouble2 + mDouble2 << endl << endl;
+
+    // Test 2 Type Char
+    My_matrix<char> mchar;
+    cout << "Test 2, Type Char: " << endl;
+    cin >> mchar;
+    cout << "Input" << endl << mchar << endl;
+    My_matrix<char> mchar2 = mchar;
+    cout << "Copy of First" << endl << mchar2 << endl;
+
+    // Test 3 Type string
+    My_matrix<string> mstring;
+    cout << "Test 3, Type String: " << endl;
+    cin >> mstring;
+    cout << "Input" << endl << mstring << endl;
+    My_matrix<string> mstring2 = mstring;
+    cout << "Copy of First" << endl << mstring2 << endl;
+    cout << "Addition" << endl << mstring2 + mstring << endl;
+
+    // Test 4 Error Checking
+    cout << "Test 4, Error Checking" << endl;
+    My_matrix<string> badString(50,44);
+    My_matrix<double> badDouble(34,34);
+    try{
+      mstring + badString;
+    }
+    catch(exception &error){
+      cerr << "Addition of Incompatible Matricies\nError: " << error.what() << endl << endl ;
+    }
+    try{
+      mstring.elem(34,343) = "a"
+    }
+    catch(exception &error){
+      cerr << "Accessing out-of-bounds element\nError: " << error.what() << endl << endl ;
+    }
+    try{
+      mDouble * badDouble;
+    }
+    catch(exception &error){ 
+      cerr << "Multiplication of Incompatible Matricies\nError: " << error.what() << endl << endl;
+    }
+    try{
+      ifstream ifs{"badData.dat"};
+      ifs >> mstring;
+    }
+    catch(exception &error){
+      cerr << "Incorrect Formating from file\nError: " << error.what() << endl << endl;
+    }
+}

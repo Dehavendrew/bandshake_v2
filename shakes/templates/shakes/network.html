@@ -1,0 +1,27 @@
+{% extends "shakes/base.html" %}
+{% block content %}
+    <script src="/static/shakes/scripts/network.js"></script>
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <style>
+      @import url(http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600);
+      path.link {
+        fill: none;
+        stroke-width: 2px;
+      }
+      .node:not(:hover) .nodetext {
+        display: none;
+      }
+    </style>
+    <h1>Network</h1>
+{#    <svg width="960" height="600"></svg>#}
+    <section id="vis"></section>
+    {{ shakes|json_script:"tags-data" }}
+
+    <script>
+        setNodes()
+       // createGraph()
+        plot()
+    </script>
+{% endblock content %}
+

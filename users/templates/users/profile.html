@@ -1,0 +1,66 @@
+{% extends "shakes/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+      <div class="media">
+        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+        <div class="media-body">
+          <h2 class="account-heading">{{ user.username }}</h2>
+          <p class="text-secondary">{{ user.profile.job }} at {{ user.profile.company }}</p>
+        </div>
+      </div>
+        <button class="btn btn-success m-2" onclick="showPersonalForm()">Personal Info</button>
+            <div class="d-inline">Update your account info, seen only by you</div>
+            <div id="private_space">
+                <div id ="private_content"></div>
+            </div>
+        <button class="btn btn-success m-2" onclick="showPublicForm()">Public Info</button>
+            <div class="d-inline">Update your public info, seen by everyone you shake hands with
+            </div>
+                    <div id="public_space">
+                        <div id ="public_content"></div>
+                    </div>
+            </div>
+    <h2>Create or Upload Documents</h2>
+    <small class="text-muted">Here you can upload documents that you would like to share with with others you meet.
+            Flyers are general documents of any type that you may want to share at your event. Resumes are specific to you
+            and your career and are dynamically updated so all users looking at your profile will see your most current resume,
+            rather than an older version.
+    </small>
+    <div class="content-section">
+     <button class="btn btn-success m-2" onclick="showResumeForm()">Resume</button>
+            <div class="d-inline">Add a resume to share with others you meet</div>
+                    <div id="resume_space">
+                        <div id ="resume_content"></div>
+                    </div>
+        <button class="btn btn-success m-2" onclick="showFlyerForm()">Flyer</button>
+            <div class="d-inline">Add a flyer to share with others you meet</div>
+                    <div id="flyer_space">
+                        <div id ="flyer_content"></div>
+                    </div>
+    </div>
+    <h2>Your Organization</h2>
+    <small class="text-muted">This section is for those officially affiliated with an organization, filling out this section will allow you to create
+        promotional material that anyone in your organization can distribute.</small>
+    <div class="content-section" id="company_box">
+        <button class="btn btn-success m-2" onclick="showNewCompanyForm()">Join a Organization</button>
+                     <div id="join_company_space">
+                        <div id ="join_company_content"></div>
+                    </div>
+        <button class="btn btn-success m-2" onclick="showNewCompanyForm()">Resister a New Organization</button>
+                    <div id="register_company_space">
+                        <div id ="register_company_content"></div>
+                    </div>
+    </div>
+    <h2>Your Documents</h2>
+    <div class="content-section" id="doc_box">
+    </div>
+    <script>getDocs("{{ resume }}")</script>
+    {% for file in files %}
+        <script>getDocs("{{ file }}")</script>
+    {% endfor %}
+     <h2>Your Organization's Documents</h2>
+    <div class="content-section" id="doc_box">
+    </div>
+
+{% endblock content %}

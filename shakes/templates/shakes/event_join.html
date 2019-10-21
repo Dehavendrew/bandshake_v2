@@ -1,0 +1,18 @@
+{% extends "shakes/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <h1>Join an Event and Select your Sharable!</h1>
+    <div class="content-section mt-4">
+        <form method="POST" enctype="multipart/form-data" id="peronsal">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Search for an Event</legend>
+                    {{ e_form|crispy }}
+                    {{ f_form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Join!</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}
