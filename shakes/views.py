@@ -13,6 +13,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from datetime import time
 from .mixins import *
+from googleapiclient import discovery, errors
+
+
+
 # Create your views here.
 
 def home(request):
@@ -57,6 +61,7 @@ class ShakeCreateView(LoginRequiredMixin, CreateView):
     template_name = 'shakes/shakes_create.html'
     context_object_name = 'shake'
     fields = ['people','eventObj']
+
 
 class ShakeDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = meetup
@@ -131,6 +136,32 @@ class EventCreateView(LoginRequiredMixin, FormView):
 
 def messenger(request):
     return render(request, 'shakes/messenger.html')
+
+def ai(request):
+    return render(request, 'shakes/shakeAI.html')
+
+@csrf_exempt
+def recievePrediction(request):
+    if request.method == "POST":
+
+        shakes = request.POST.get('shakes')
+        shakes = [int(x) for x in shakes.split(",")]
+        service = discovery.build('ml', 'v1')
+        name = 'projects/{}/models/{}/versions/{}'.format('bandshake1', 'shake_detector','v3')
+
+        response = service.projects().predict(
+            name=name,
+            body={'instances': [shakes]}
+        ).execute()
+
+
+        if 'error' in response:
+            return HttpResponse(response)
+
+        return HttpResponse(response['predictions'])
+
+    if request.method == "GET":
+        return(HttpResponse("Hi its me ur data"))
 
 
 @login_required

@@ -1,0 +1,54 @@
+{% extends "shakes/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<style type="text/css">
+.line {
+    fill: none;
+    stroke: orange;
+    stroke-width: 3;
+}
+.line2 {
+    fill: none;
+    stroke: blue;
+    stroke-width: 3;
+}
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+.dot {
+    fill: orange;
+    stroke: #fff;
+}
+
+.dot2 {
+    fill: blue;
+    stroke: #fff;
+}
+
+  .focus circle {
+  fill: none;
+  stroke: steelblue;
+}
+</style>
+
+  <script src="/static/shakes/scripts/shakeAI.js"></script>
+  <script src="https://d3js.org/d3.v4.js"></script>
+  <h1 id="Shake">Awaiting Data</h1>
+  <div class="content-section mt-4" style="height:60px">
+    <div style="float:left; margin-left:20px">
+      Band 1:
+      <button id="band1btn" class="btn btn-outline-info ml-3" onclick="con(1)">Connect</button>
+    </div>
+    <div style="float:right; margin-right:20px">
+      Band 2:
+      <button id="band2btn" class="btn btn-outline-info ml-3" onclick="con(2)">Connect</button>
+    </div>
+  </div>
+
+  <div id="graph" class="content-section mt-4" style="height:400px">
+  </div>
+  <button id="clear" class="btn btn-success ml-3" onclick="clr()">Clear</button>
+
+{% endblock content %}
